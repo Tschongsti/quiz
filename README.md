@@ -1,6 +1,6 @@
 # quiz
 
-A new Flutter project.
+My second Flutter project as practice coding along the Udemy course "Flutter & Dart - The Complete Guide [2025 Edition]".
 
 ## Getting Started
 
