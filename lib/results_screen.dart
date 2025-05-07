@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:quiz/data/questions.dart';
-import 'package:quiz/questions_summary.dart';
+import 'package:quiz/questions_summary/questions_summary.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ResultsScreen extends StatelessWidget{
-  const ResultsScreen(
-    this.restartQuiz,
-    {
+class ResultsScreen extends StatelessWidget {
+  const ResultsScreen({
     super.key,
     required this.chosenAnswers,
-    }
-  );
-  
-  final List<String> chosenAnswers;
-  final void Function() restartQuiz;
+    required this.onRestart,
+  });
 
-  List<Map<String, Object>> getSummaryData () {
+  final void Function() onRestart;
+  final List<String> chosenAnswers;
+
+  List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
 
     for (var i = 0; i < chosenAnswers.length; i++) {
-     summary.add(
-      {
-      'question_index': i,
-      'question': questions[i].text,
-      'correct_answer': questions[i].answers[0],
-      'user_answer': chosenAnswers[i],
-      },
-     );
+      summary.add(
+        {
+          'question_index': i,
+          'question': questions[i].text,
+          'correct_answer': questions[i].answers[0],
+          'user_answer': chosenAnswers[i]
+        },
+      );
     }
 
     return summary;
@@ -40,8 +38,8 @@ class ResultsScreen extends StatelessWidget{
     final numCorrectQuestions = summaryData.where((data) {
       return data['user_answer'] == data['correct_answer'];
     }).length;
-    
-    return SizedBox (
+
+    return SizedBox(
       width: double.infinity,
       child: Container(
         margin: const EdgeInsets.all(40),
@@ -49,28 +47,29 @@ class ResultsScreen extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              textAlign: TextAlign.center,
+              'You answered $numCorrectQuestions out of $numTotalQuestions questions correctly!',
               style: GoogleFonts.lato(
-              color: const Color.fromARGB(255, 236, 227, 247),
-              fontSize: 24,
-              fontWeight: FontWeight.bold, 
+                color: const Color.fromARGB(255, 230, 200, 253),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-              'You answered $numCorrectQuestions out of $numTotalQuestions questions correctly!'),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(
-                height: 30,
-                ),
+              height: 30,
+            ),
             QuestionsSummary(summaryData),
             const SizedBox(
               height: 30,
-              ),
-            OutlinedButton.icon(
-              onPressed: restartQuiz,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                ),
-              icon: const Icon(Icons.refresh_sharp),
-              label: const Text('Restart Quiz!'),
             ),
+            TextButton.icon(
+              onPressed: onRestart,
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+              ),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Restart Quiz!'),
+            )
           ],
         ),
       ),

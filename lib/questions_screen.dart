@@ -5,13 +5,16 @@ import 'package:quiz/answer_button.dart';
 import 'package:quiz/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen ({super.key, required this.onSelectAnswer,});
+  const QuestionsScreen({
+    super.key,
+    required this.onSelectAnswer,
+  });
 
   final void Function(String answer) onSelectAnswer;
 
-@override
-State<QuestionsScreen> createState() {
-  return _QuestionsScreenState();
+  @override
+  State<QuestionsScreen> createState() {
+    return _QuestionsScreenState();
   }
 }
 
@@ -20,15 +23,15 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void answerQuestion(String selectedAnswer) {
     widget.onSelectAnswer(selectedAnswer);
+    // currentQuestionIndex = currentQuestionIndex + 1;
+    // currentQuestionIndex += 1;
     setState(() {
-      // currentQuestionIndex = currentQuestionIndex + 1;
-      // currentQuestionIndex += 1;
-      currentQuestionIndex++; // increments the value by 1 (similar with --)
-      });
-    }
+      currentQuestionIndex++; // increments the value by 1
+    });
+  }
 
   @override
-  Widget build (context) {
+  Widget build(context) {
     final currentQuestion = questions[currentQuestionIndex];
 
     return SizedBox(
@@ -39,22 +42,22 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-          Text(
-            currentQuestion.text,
-            style: GoogleFonts.lato(
-              color: const Color.fromARGB(255, 215, 150, 241),
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ), 
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 30),
-          ...currentQuestion.getShuffledAnswers().map((answer) {
-            return AnswerButton(
-              answer,
-              () {
-                answerQuestion(answer);
-              }
+            Text(
+              currentQuestion.text,
+              style: GoogleFonts.lato(
+                color: const Color.fromARGB(255, 201, 153, 251),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            ...currentQuestion.getShuffledAnswers().map((answer) {
+              return AnswerButton(
+                answer,
+                () {
+                  answerQuestion(answer);
+                },
               );
             })
           ],
